@@ -28,6 +28,7 @@ lazy val commonSettings = Seq(
 	libraryDependencies += "edu.berkeley.cs" %% "chisel3" % "3.2.0",
 	libraryDependencies += "edu.berkeley.cs" %% "chisel-iotesters" % "1.4.2",
 	libraryDependencies += "edu.berkeley.cs" %% "chiseltest" % "0.2.2",
+	libraryDependencies += "org.jacop" % "jacop" % "4.7.0",
 	scalacOptions ++= Seq("-deprecation", "-feature"),
 	scalacOptions ++= scalacOptionsVersion(scalaVersion.value),
 	javacOptions ++= javacOptionsVersion(scalaVersion.value)

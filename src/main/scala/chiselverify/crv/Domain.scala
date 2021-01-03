@@ -1,0 +1,3 @@
+package crv
+
+trait Domain {}
