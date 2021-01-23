@@ -169,6 +169,41 @@ class FunctionalCoverageTest extends FlatSpec with ChiselScalatestTester with Ma
         //Generate report
         assertThrows[IllegalStateException](cr.report)
     }
+    /**
+      * Tests functional coverage in a generic use case
+      */
+    def testGeneric2[T <: BasicToyDUT](dut: T): Unit = {
+
+        val cr = new CoverageReporter(dut)
+        cr.register(
+            //Declare CoverPoints
+            CoverPoint(dut.io.outA , "a")( //CoverPoint 1
+                Bins("zero", 0 to 0)::Nil)::Nil)
+
+        /**
+          * Basic test to see if we get the right amount of hits
+          */
+        def testOne(): Unit = {
+            for (fun <- 0 until 50) {
+                dut.io.a.poke(0.U)
+                dut.io.b.poke(toUInt(fun % 5))
+                dut.clock.step()
+                cr.sample()
+            }
+        }
+
+        testOne()
+
+        //Generate report
+        val report = cr.report
+
+        //Check that the number of hits is correct
+        report.binNHits(1, "a", "zero") should be (BigInt(50))
+    }
+
+    "Coverage" should "get the right amount of hits for one bin" in {
+        test(new BasicToyDUT(32)){ dut => testGeneric2(dut) }
+    }
 
     "Coverage" should "get the right amount of hits" in {
         test(new BasicToyDUT(32)){ dut => testGeneric(dut) }

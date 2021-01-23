@@ -25,7 +25,7 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Handles everything related to functional coverage
   */
-class CoverageReporter[T <: Module](private val dut: T) {
+class CoverageReporter[T <: MultiIOModule](private val dut: T) {
     private val coverGroups: ArrayBuffer[CoverGroup] = new ArrayBuffer[CoverGroup]()
     private val coverageDB: CoverageDB = new CoverageDB
 
@@ -109,12 +109,14 @@ class CoverageReporter[T <: Module](private val dut: T) {
       */
     def sample(): Unit = {
 
-        def sampleBins(point: CoverPoint, value: Int) : Unit =
+        def sampleBins(point: CoverPoint, value: Int): Unit = {
+            println(point.bins)
             point.bins.foreach(bin => {
-                if(bin.range contains value) {
+                if (bin.range contains value) {
                     coverageDB.addBinHit(point.portName, bin.name, value)
                 }
             })
+        }
 
         coverGroups foreach(group => {
             var sampledPoints: List[CoverPoint] = Nil
