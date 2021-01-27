@@ -422,4 +422,13 @@ class Rand(name: String, min: Int, max: Int)(implicit val model: Model)
   def inside(that: SetVar): Constraint = {
     this.in(that)
   }
+
+  /**
+    *
+    * @param groups
+    * @return
+    */
+  def dist(groups: (Range, Int)*): Unit = {
+    groups.foreach(println)
+  }
 }
