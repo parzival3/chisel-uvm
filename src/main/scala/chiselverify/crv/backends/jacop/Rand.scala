@@ -424,11 +424,13 @@ class Rand(name: String, min: Int, max: Int)(implicit val model: Model)
   }
 
   /**
-    *
-    * @param groups
-    * @return
+    * Create a distribution constraint for the current value
+    * @param groups the [[WeightedRange]] or [[WeightedValue]] to assign to the current variable
+    * @return the [[DistConstraint]]
     */
-  def dist(groups: (Range, Int)*): Unit = {
-    groups.foreach(println)
+  def dist(groups: Weight*): DistConstraint = {
+    val c = new DistConstraint(this, groups.toList)
+    model.distConst += c
+    c
   }
 }
